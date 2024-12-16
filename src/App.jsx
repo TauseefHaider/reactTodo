@@ -3,7 +3,8 @@ import './App.css'
 import Input from './Components/Input'
 import Button from './Components/Button'
 import { useState, useEffect } from 'react'
-import { use } from 'react';
+import logo from "../public/del.svg";
+
 function App() {
   let data = [];
   const [todos, setTodos] = useState([]);
@@ -32,20 +33,27 @@ useEffect(() =>{
        }
   }
 
+  const deleteTodo = (indexToDelete) => {
+    const updatedTodos = todos.filter((_, index) => index !== indexToDelete);
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="bg-black w-full h-lvh mt-0 p-6 flex flex-col items-center gap-6">
-      <h1 className='text-white text-center m-6 text-2xl font-bold'>Todo App</h1>
+      <h1 className='text-white text-center m-6 text-3xl font-bold'>Todo App</h1>
       <div className='flex gap-2 justify-center items-center aline-center'> 
         <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
         <Button onClick={addTodo} />
         
       </div>
-      <div className='w-[300px] '>
-        <h2 className='text-white text-xl font-semibold' >Todo List</h2>
-        <ul className='text-white'>
+      <div className='w-[450px] mr-3'>
+        <h2 className='text-white text-2xl font-semibold ml-3 my-6' >Task List</h2>
+        <ul className=''>
           {todos.map((todo,index) => (
-          <li key={index}>
-            {todo}
+          <li key={index} className='bg-white m-2 rounded-lg px-3 p-2 flex justify-between'>
+            <div className='flex gap-1'><p>{index + 1} -</p>{todo}</div>
+            
+            <img className='cursor-pointer' src={logo} alt="logo" onClick={() => deleteTodo(index)} />
           </li>
         ))}
         </ul>

@@ -5,7 +5,7 @@ export default function Button({ onClick }) {
     <div>
         <button
         onClick={onClick}
-        className='bg-white p-2 rounded-lg text-center font-semibold'>Add</button>
+        className='bg-white p-3 rounded-lg text-center font-semibold'>Add Task</button>
     </div>
   )
 }
