@@ -4,12 +4,15 @@ import Input from './Components/Input'
 import Button from './Components/Button'
 import { useState, useEffect } from 'react'
 import logo from "../public/del.svg";
+import edit from "../public/edit.svg";
 
 function App() {
   let data = [];
   const [todos, setTodos] = useState([]);
   let todosData = localStorage.getItem("todos");
   const [inputValue, setInputValue] = useState("");
+  const [editIndex, setEditIndex] = useState(null); 
+  const [editValue, setEditValue] = useState("");
 
 
 
@@ -38,6 +41,21 @@ useEffect(() =>{
     setTodos(updatedTodos);
   };
 
+  const startEdit = (index, value) => {
+    setEditIndex(index); // Set the task being edited
+    setEditValue(value); // Set the current value to input
+  };
+
+  // Save the edited task
+  const saveEdit = () => {
+    const updatedTodos = todos.map((todo, index) =>
+      index === editIndex ? editValue : todo
+    );
+    setTodos(updatedTodos);
+    setEditIndex(null); // Exit edit mode
+    setEditValue("");
+  };
+
   return (
     <div className="bg-black w-full h-lvh mt-0 p-6 flex flex-col items-center gap-6">
       <h1 className='text-white text-center m-6 text-3xl font-bold'>Todo App</h1>
@@ -50,10 +68,49 @@ useEffect(() =>{
         <h2 className='text-white text-2xl font-semibold ml-3 my-6' >Task List</h2>
         <ul className=''>
           {todos.map((todo,index) => (
-          <li key={index} className='bg-white m-2 rounded-lg px-3 p-2 flex justify-between'>
-            <div className='flex gap-1'><p>{index + 1} -</p>{todo}</div>
-            
-            <img className='cursor-pointer' src={logo} alt="logo" onClick={() => deleteTodo(index)} />
+          <li key={index} className='bg-white m-3 rounded-lg px-3 p-2 flex justify-between'>
+            {editIndex === index ? (
+                
+                <Input
+                  type="text"
+                  value={editValue}
+                  onChange={(e) => setEditValue(e.target.value)}
+                  
+                />
+              ) : (
+                
+                <div className="flex gap-1">
+                  <p>{index + 1} -</p>
+                  {todo}
+                </div>
+              )}
+
+              <div className="flex gap-3">
+                {editIndex === index ? (
+                  
+                  <button
+                    onClick={saveEdit}
+                    className="bg-green-500 text-white px-2 py-1 rounded"
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <>
+                    <img
+                      onClick={() => startEdit(index, todo)}
+                      src={edit}
+                      className="cursor-pointer"
+                    />
+                     
+                    <img
+                      className="cursor-pointer"
+                      src={logo}
+                      alt="delete"
+                      onClick={() => deleteTodo(index)}
+                    />
+                  </>
+                )}
+              </div>
           </li>
         ))}
         </ul>
