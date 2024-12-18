@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import logo from "../public/del.svg";
 import edit from "../public/edit.svg";
 
+
 function App() {
   let data = [];
   const [todos, setTodos] = useState([]);
@@ -58,21 +59,22 @@ useEffect(() =>{
 
   return (
     <div className="bg-black w-full h-lvh mt-0 p-6 flex flex-col items-center gap-6">
-      <h1 className='text-white text-center m-6 text-3xl font-bold'>Todo App</h1>
+      <h1 className='text-white text-center m-6 text-4xl font-bold'>Todo App</h1>
       <div className='flex gap-2 justify-center items-center aline-center'> 
         <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
         <Button onClick={addTodo} />
         
       </div>
-      <div className='w-[450px] mr-3'>
+      <div className='w-[420px] mr-3'>
         <h2 className='text-white text-2xl font-semibold ml-3 my-6' >Task List</h2>
-        <ul className=''>
+        <ul className='bg-white p-2 rounded-lg'>
           {todos.map((todo,index) => (
-          <li key={index} className='bg-white m-3 rounded-lg px-3 p-2 flex justify-between'>
+          <li key={index} className='bg-black text-white m-3 rounded-lg px-3 p-3 flex justify-between'>
             {editIndex === index ? (
                 
-                <Input
+                <input
                   type="text"
+                  className='rounded-lg text-black w-[300px] p-2'
                   value={editValue}
                   onChange={(e) => setEditValue(e.target.value)}
                   
